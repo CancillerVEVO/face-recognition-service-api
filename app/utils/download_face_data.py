@@ -16,7 +16,7 @@ def download_face_data(data, path):
             path_to_image = os.path.join(path, f"{uuid4()}.jpg")
             urllib.request.urlretrieve(url, path_to_image)
             image_path_and_label_pair.append(
-                {'image_path': path_to_image, 'label': labels[i]})
+                {'img_path': path_to_image, 'label': labels[i]})
 
         path_to_unknown_image = os.path.join(path, f"{uuid4()}.jpg")
         urllib.request.urlretrieve(unknown_face, path_to_unknown_image)

@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_restful import reqparse, abort, Api, Resource
 from marshmallow import Schema, ValidationError, fields
-from Controllers.face_rec_controller import FaceRecognition
+from controllers.face_rec_controller import FaceRecognition
 
 app = Flask(__name__)
 api = Api(app)

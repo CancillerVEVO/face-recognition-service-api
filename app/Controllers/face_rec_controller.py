@@ -3,10 +3,9 @@ from marshmallow import Schema, fields
 from flask_restful import Resource
 from utils.download_face_data import download_face_data
 from utils.remove_face_data import remove_face_data
+from services.face_rec import recognize_face_in_image
 import os
-import json
 from uuid import uuid4
-from pprint import pprint
 
 
 class KnownSchema(Schema):
@@ -32,10 +31,17 @@ class FaceRecognition(Resource):
             data = request_schema.load(json_data)
             path = os.path.join(os.getcwd(), 'temp', str(uuid4()))
             os.makedirs(path)
+
             image_path_and_label_pair, path_to_unknown_image = download_face_data(
                 data, path)
-            remove_face_data(path)
+            label = recognize_face_in_image(
+                image_path_and_label_pair, path_to_unknown_image)
 
-            return {'message': 'success'}, 200
+            if label:
+                remove_face_data(path)
+                return {'label': label}, 200
+            else:
+                remove_face_data(path)
+                return {'message': 'No match found'}, 404
         except Exception as e:
             return {'message': str(e)}, 400
