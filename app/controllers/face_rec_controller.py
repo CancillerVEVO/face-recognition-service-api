@@ -39,9 +39,9 @@ class FaceRecognition(Resource):
 
             if label:
                 remove_face_data(path)
-                return {'label': label}, 200
+                return 200
             else:
                 remove_face_data(path)
-                return {'message': 'No match found'}, 404
+                return {'error': 'No match found'}, 404
         except Exception as e:
             return {'message': str(e)}, 400
